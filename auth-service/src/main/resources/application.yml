@@ -14,4 +14,4 @@ spring:
     init:
       mode: always
       scripts:
-        - classpath:init.init
+        - classpath:init.sql
