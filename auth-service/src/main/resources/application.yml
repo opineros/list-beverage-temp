@@ -5,8 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/authdb
     username: postgres
-    password: password
-  jpa:
+    password: p4Y2!qmvDTJd3JzZbjz9
     hibernate:
       ddl-auto: update
     show-sql: true

@@ -5,6 +5,8 @@ import com.opineros.listbeverage.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -22,7 +24,7 @@ public class UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        //user.setRoles(Set.of("USER"));
+        user.setRoles(Set.of("USER"));
         return userRepository.save(user);
     }
 
