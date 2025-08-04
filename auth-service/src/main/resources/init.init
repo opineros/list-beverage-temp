@@ -1,0 +1,6 @@
+-- SQL de inicialización de la base de datos
+-- Agrega aquí tus scripts DDL/DML, por ejemplo:
+-- CREATE TABLE IF NOT EXISTS example (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(100) NOT NULL
+-- );
