@@ -1,0 +1,5 @@
+server:
+  port: 8081
+
+app:
+  jwtSecret: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
