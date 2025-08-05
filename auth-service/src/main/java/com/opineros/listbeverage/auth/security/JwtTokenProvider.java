@@ -1,49 +1,79 @@
 package com.opineros.listbeverage.auth.security;
 
+import com.opineros.listbeverage.auth.model.Role;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import com.opineros.listbeverage.auth.model.Role;
-import java.util.Set;
 
 @Component
 public class JwtTokenProvider {
-    private static final Key key = Keys.hmacShaKeyFor("my-super-secret-key-that-should-be-at-least-256-bits-long".getBytes());
-    private static final long validityInMs = 3600000; // 1h
+    @Value("${app.jwtSecret}")
+    private String jwtSecret;
 
-    public String createToken(String username, Set<Role> roles) {
+    @Value("${app.jwtExpirationMs}")
+    private long jwtExpirationMs;
+
+    public String createToken(String username, Role role) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMs);
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+
         return Jwts.builder()
                 .setSubject(username)
-                .claim("roles", roles.stream().map(Role::name).toList())
+                .claim("role", role.getName())
                 .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(expiryDate)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
+    /**
+     * Obtiene el nombre de usuario (subject) del token.
+     */
     public String getUsername(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Role> getRoles(String token) {
-        List<String> roles = (List<String>) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("roles");
-        return roles.stream().map(Role::valueOf).toList();
+    /**
+     * Obtiene el nombre del rol del token.
+     */
+    public String getRoleName(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("role", String.class);
+    }
+
+    /**
+     * Obtiene una lista con el rol (para compatibilidad con filtros).
+     */
+    public List<String> getRoles(String token) {
+        return Collections.singletonList(getRoleName(token));
     }
 }

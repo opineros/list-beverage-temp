@@ -1,15 +1,17 @@
 services:
   db:
     image: postgres:15-alpine
+    restart: always
     container_name: auth-db
     environment:
       POSTGRES_DB: authdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: p4Y2!qmvDTJd3JzZbjz9
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   auth-service:
     build:

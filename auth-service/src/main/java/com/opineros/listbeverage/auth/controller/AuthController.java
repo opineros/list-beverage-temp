@@ -38,7 +38,7 @@ public class AuthController {
         try {
             authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             User user = userService.loadUser(username);
-            String token = tokenProvider.createToken(username, user.getRoles());
+            String token = tokenProvider.createToken(username, user.getRole());
             return ResponseEntity.ok(Map.of("token", token));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(401).body("Invalid credentials");

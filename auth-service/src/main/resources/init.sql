@@ -16,7 +16,6 @@ ON CONFLICT (name) DO NOTHING;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role_id INT NOT NULL REFERENCES roles(id),
     created_by VARCHAR(50),
@@ -26,10 +25,11 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- 3. Tabla de logs de auditoría
-CREATE TABLE IF NOT EXISTS audit_log (
+CREATE TABLE IF NOT EXISTS audit_logs (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id),
-    action VARCHAR(100) NOT NULL,
-    timestamp TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-    details TEXT
+    username VARCHAR(50),
+    path VARCHAR(255),
+    method VARCHAR(10),
+    timestamp TIMESTAMP WITHOUT TIME ZONE
 );
+

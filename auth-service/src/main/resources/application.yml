@@ -1,9 +1,13 @@
 server:
   port: 8081
 
+app:
+  jwtSecret: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+  jwtExpirationMs: 3600000
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/authdb
+    url: jdbc:postgresql://localhost:5433/authdb
     username: postgres
     password: p4Y2!qmvDTJd3JzZbjz9
     hibernate:
