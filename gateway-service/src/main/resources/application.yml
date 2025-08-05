@@ -1,5 +1,26 @@
 server:
-  port: 8081
+  port: 8080
 
-app:
-  jwtSecret: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      default-filters:
+        - RemoveRequestHeader=Cookie
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+        - id: beverage-service
+          uri: lb://beverage-service
+          predicates:
+            - Path=/beverages/**
+        - id: user-beverage-service
+          uri: lb://user-beverage-service
+          predicates:
+            - Path=/user-beverages/**

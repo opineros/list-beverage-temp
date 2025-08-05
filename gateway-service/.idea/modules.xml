@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/list-beverage-temp.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/list-beverage-temp.gateway-service.iml" />
     </modules>
   </component>
 </project>
