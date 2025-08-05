@@ -24,3 +24,7 @@ spring:
           uri: lb://user-beverage-service
           predicates:
             - Path=/user-beverages/**
+
+jwt:
+  secret: TuSecretoMuyLargo_DeAlMenos_32Bytes_ParaHS256
+  expiration: 3600000
