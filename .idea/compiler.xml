@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="audit-service" target="21" />
+      <module name="audit-service.main" target="21" />
+      <module name="audit-service.test" target="21" />
+      <module name="audit-shared" target="21" />
+      <module name="audit-shared.main" target="21" />
+      <module name="audit-shared.test" target="21" />
+      <module name="auth-service" target="21" />
+      <module name="auth-service.main" target="21" />
+      <module name="auth-service.test" target="21" />
+      <module name="eureka-server" target="21" />
+      <module name="eureka-server.main" target="21" />
+      <module name="eureka-server.test" target="21" />
+      <module name="gateway-service" target="21" />
+      <module name="gateway-service.main" target="21" />
+      <module name="gateway-service.test" target="21" />
+      <module name="list-beverage-temp.audit-shared" target="21" />
+      <module name="list-beverage-temp.audit-shared.main" target="21" />
+      <module name="list-beverage-temp.audit-shared.test" target="21" />
+      <module name="list-beverage-temp.gateway-service" target="21" />
+      <module name="list-beverage-temp.gateway-service.main" target="21" />
+      <module name="list-beverage-temp.gateway-service.test" target="21" />
+      <module name="list-beverage.main" target="21" />
+      <module name="list-beverage.test" target="21" />
+      <module name="user-service" target="21" />
+      <module name="user-service.main" target="21" />
+      <module name="user-service.test" target="21" />
+      <module name="workspace.audit-shared" target="21" />
+      <module name="workspace.audit-shared.main" target="21" />
+      <module name="workspace.audit-shared.test" target="21" />
+      <module name="workspace.gateway-service" target="21" />
+      <module name="workspace.gateway-service.main" target="21" />
+      <module name="workspace.gateway-service.test" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="audit-service" options="-parameters" />
+      <module name="audit-service.main" options="-parameters" />
+      <module name="audit-service.test" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
+      <module name="auth-service.main" options="-parameters" />
+      <module name="auth-service.test" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="eureka-server.main" options="-parameters" />
+      <module name="eureka-server.test" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="gateway-service.main" options="-parameters" />
+      <module name="gateway-service.test" options="-parameters" />
+      <module name="list-beverage-temp.gateway-service" options="-parameters" />
+      <module name="list-beverage-temp.gateway-service.main" options="-parameters" />
+      <module name="list-beverage-temp.gateway-service.test" options="-parameters" />
+      <module name="list-beverage.audit-service" options="-parameters" />
+      <module name="list-beverage.audit-service.main" options="-parameters" />
+      <module name="list-beverage.audit-service.test" options="-parameters" />
+      <module name="list-beverage.audit-shared" options="-parameters" />
+      <module name="list-beverage.audit-shared.main" options="-parameters" />
+      <module name="list-beverage.audit-shared.test" options="-parameters" />
+      <module name="list-beverage.auth-service" options="-parameters" />
+      <module name="list-beverage.auth-service.main" options="-parameters" />
+      <module name="list-beverage.auth-service.test" options="-parameters" />
+      <module name="list-beverage.eureka-server" options="-parameters" />
+      <module name="list-beverage.eureka-server.main" options="-parameters" />
+      <module name="list-beverage.eureka-server.test" options="-parameters" />
+      <module name="list-beverage.gateway-service" options="-parameters" />
+      <module name="list-beverage.gateway-service.main" options="-parameters" />
+      <module name="list-beverage.gateway-service.test" options="-parameters" />
+      <module name="list-beverage.user-service" options="-parameters" />
+      <module name="list-beverage.user-service.main" options="-parameters" />
+      <module name="list-beverage.user-service.test" options="-parameters" />
+      <module name="user-service" options="-parameters" />
+      <module name="user-service.main" options="-parameters" />
+      <module name="user-service.test" options="-parameters" />
+      <module name="workspace.gateway-service" options="-parameters" />
+      <module name="workspace.gateway-service.main" options="-parameters" />
+      <module name="workspace.gateway-service.test" options="-parameters" />
+    </option>
+  </component>
+</project>

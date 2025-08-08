@@ -1,11 +1,28 @@
 server:
   port: 8080
 
+app:
+  jwtSecret: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+  jwtExpirationMs: 3600000
+
 spring:
   application:
     name: gateway-service
 
   cloud:
+    stream:
+      bindings:
+        # Define un binding de salida con nombre <beanName>-out-0
+        auditEventOut-out-0:
+          destination: audit.events
+          content-type: application/json
+
+      rabbit:
+        bindings:
+          auditEventOut-out-0:
+            producer:
+              exchangeType: topic
+
     discovery:
       enabled: true
     gateway:
@@ -16,15 +33,11 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/auth/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
         - id: beverage-service
           uri: lb://beverage-service
           predicates:
             - Path=/beverages/**
-        - id: user-beverage-service
-          uri: lb://user-beverage-service
-          predicates:
-            - Path=/user-beverages/**
-
-jwt:
-  secret: TuSecretoMuyLargo_DeAlMenos_32Bytes_ParaHS256
-  expiration: 3600000

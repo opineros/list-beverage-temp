@@ -1,13 +1,11 @@
-# Stage 1: Build with Gradle
-FROM gradle:8.5-jdk21 AS build
+# Stage 1: compile and build jar
+FROM gradle:8-jdk21 AS builder
 WORKDIR /home/gradle/project
-COPY --chown=gradle:gradle . .
-RUN gradle clean bootJar --no-daemon
+COPY . .
+RUN gradle bootJar --no-daemon
 
-# Stage 2: Runtime image
-FROM eclipse-temurin:21-jre-jammy
+# 2) Etapa de runtime
+FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
-# Copiamos el JAR generado
-COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY --from=builder /workspace/gateway-service/build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

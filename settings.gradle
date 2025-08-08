@@ -1,0 +1,8 @@
+rootProject.name = 'list-beverage'
+include 'gateway-service', 'eureka-server', 'audit-shared', 'audit-service', 'auth-service', 'user-service'
+project(':gateway-service').projectDir = file('gateway-service')
+project(':eureka-server').projectDir = file('eureka-server')
+project(':audit-shared').projectDir = file('audit-shared')
+project(':audit-service').projectDir = file('audit-service')
+project(':auth-service').projectDir = file('auth-service')
+project(':user-service').projectDir = file('user-service')

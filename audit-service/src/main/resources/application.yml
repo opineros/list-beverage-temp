@@ -1,0 +1,27 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: audit-service
+
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27018/auditdb}
+
+  cloud:
+    function:
+      scan:
+        enabled: false
+      definition: auditEventIn
+
+    stream:
+      bindings:
+        auditEventIn-in-0:
+          destination: audit.events
+          content-type: application/json
+      rabbit:
+        bindings:
+          auditEventIn-in-0:
+            consumer:
+              queueName: audit.events.queue

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/list-beverage.iml" filepath="$PROJECT_DIR$/.idea/modules/list-beverage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/audit-service/list-beverage.audit-service.iml" filepath="$PROJECT_DIR$/.idea/modules/audit-service/list-beverage.audit-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/audit-shared/list-beverage.audit-shared.iml" filepath="$PROJECT_DIR$/.idea/modules/audit-shared/list-beverage.audit-shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/list-beverage.auth-service.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/list-beverage.auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/list-beverage.eureka-server.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/list-beverage.eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/list-beverage.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/list-beverage.gateway-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1641476180/list-beverage.user-service.iml" filepath="$PROJECT_DIR$/.idea/modules/1641476180/list-beverage.user-service.iml" />
+    </modules>
+  </component>
+</project>

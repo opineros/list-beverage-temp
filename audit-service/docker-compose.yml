@@ -1,0 +1,28 @@
+services:
+  mongodb:
+    image: mongo:6
+    container_name: audit-mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - audit-network
+
+  audit-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: audit-service
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/auditdb
+    depends_on:
+      - mongodb
+    networks:
+      - audit-network
+
+networks:
+  audit-network:
+    driver: bridge

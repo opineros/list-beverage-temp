@@ -12,8 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
-
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider tokenProvider;
 
@@ -24,12 +22,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // Excluir el endpoint de registro
-        String [] paths = {"/auth/register","/auth/login"};
+        String [] paths = {"/auth/register", "/auth/login", "/swagger-ui.html", "/swagger-ui/index.html", "/swagger-ui-bundle.js", "/swagger-ui/favicon-16x16.png", "/swagger-ui/favicon-32x32.png", "/swagger-ui/swagger-initializer.js", "/swagger-ui/index.css", "/swagger-ui/swagger-ui-bundle.js", "/swagger-ui/swagger-ui-standalone-preset.js", "/swagger-ui/swagger-ui-standalone-preset.js", "/api-docs/swagger-config", "/swagger-ui/swagger-ui.css", "/api-docs/auth"};
         for (String path : paths) {
            if(path.equals(request.getServletPath()))
             return true;
         }
-        return false;
+        return true;
     }
 
     @Override

@@ -8,3 +8,9 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=builder /home/gradle/project/build/libs/auth-service-0.0.1-SNAPSHOT.jar auth-service.jar
 ENTRYPOINT ["java", "-jar", "auth-service.jar"]
+
+
+FROM eclipse-temurin:21-jdk-alpine
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

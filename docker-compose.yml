@@ -1,0 +1,180 @@
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - list-beverage-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - list-beverage-network
+
+  audit-db:
+    image: mongo:6
+    container_name: audit-db
+    ports:
+      - "27018:27017"
+    volumes:
+      - audit-db-data:/data/db
+    networks:
+      - list-beverage-network
+
+  audit-service:
+    build:
+      context: ./audit-service
+      dockerfile: Dockerfile
+    container_name: audit-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/auditdb
+    depends_on:
+      - audit-db
+    networks:
+      - list-beverage-network
+
+  auth-db:
+    image: postgres:15-alpine
+    container_name: auth-db
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p4Y2!qmvDTJd3JzZbjz9
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+#      - ./auth-service/docker/init-db.d:/docker-entrypoint-initdb.d
+#      - ./auth-service/src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - list-beverage-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - '8081:8081'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/authdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: p4Y2!qmvDTJd3JzZbjz9
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_JWTSECRET: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+      APP_JWTEXPIRATIONMS: 3600000
+      SPRING_APPLICATION_JSON: >-
+        {
+          "eureka": {
+            "client": {
+              "serviceUrl": {
+                "defaultZone": "http://eureka-server:8761/eureka/"
+              }
+            }
+          }
+        }
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      auth-db:
+        condition: service_started
+    networks:
+      - list-beverage-network
+
+  user-db:
+    image: postgres:15-alpine
+    restart: always
+    container_name: user-db
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p4Y2!qmvDTJd3JzZbjz7
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - list-beverage-network
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/userdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: p4Y2!qmvDTJd3JzZbjz7
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_JWTSECRET: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+      APP_JWTEXPIRATIONMS: 3600000
+      SPRING_APPLICATION_JSON: >-
+        {
+          "eureka": {
+            "client": {
+              "serviceUrl": {
+                "defaultZone": "http://eureka-server:8761/eureka/"
+              }
+            }
+          }
+        }
+    ports:
+      - '8082:8082'
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      user-db:
+        condition: service_started
+    networks:
+      - list-beverage-network
+
+  gateway-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gateway-service
+    ports:
+      - '8080:8080'
+    environment:
+      APP_JWTSECRET: nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==
+      APP_JWTEXPIRATIONMS: 3600000
+      SPRING_APPLICATION_JSON: >-
+        {
+          "eureka": {
+            "client": {
+              "serviceUrl": {
+                "defaultZone": "http://eureka-server:8761/eureka/"
+              }
+            }
+          }
+        }
+    depends_on:
+      - auth-service
+    networks:
+      - list-beverage-network
+
+networks:
+  list-beverage-network:
+    driver: bridge
+
+volumes:
+  audit-db-data:
+  auth-db-data:
+  user-db-data:

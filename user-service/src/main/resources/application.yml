@@ -1,0 +1,56 @@
+server:
+  port: 8082
+
+app:
+  jwtSecret: ${APP_JWTSECRET:nruA/RNh4Xgw7ZiFoGC0Wmd4glv2lK0E0LIWU8EMnMZe5Yt/NV7YrCYmmmpZHWn+x7qztGxbCy/eeVziqwZifA==}
+  jwtExpirationMs: 3600000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  application:
+    name: user-service   # nombre único en el registro
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/userdb}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:p4Y2!qmvDTJd3JzZbjz7}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+      scripts:
+        - classpath:init.sql
+
+  cloud:
+    function:
+      # Nombre exacto de tu bean @Bean Consumer<Long> userCreatedIn()
+      definition: userCreatedIn
+
+    stream:
+      bindings:
+        # <beanName>-in-0 → userCreatedIn-in-0 (no user-created-in-0)
+        userCreatedIn-in-0:
+          destination: user.created
+          content-type: application/json
+
+      rabbit:
+        bindings:
+          userCreatedIn-in-0:
+            consumer:
+              queueName: user.created.queue
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # URL de tu Eureka Server
+    register-with-eureka: true    # permite que este servicio se registre
+    fetch-registry: true

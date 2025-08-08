@@ -1,5 +1,6 @@
 package com.opineros.listbeverage.auth.service;
 
+import com.opineros.listbeverage.auth.messaging.UserCreatedPublisher;
 import com.opineros.listbeverage.auth.model.User;
 import com.opineros.listbeverage.auth.repository.RoleRepository;
 import com.opineros.listbeverage.auth.repository.UserRepository;
@@ -11,11 +12,13 @@ import com.opineros.listbeverage.auth.model.Role;
 
 @Service
 public class UserService {
+    private final UserCreatedPublisher publisher;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserCreatedPublisher publisher, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.publisher = publisher;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -39,9 +42,12 @@ public class UserService {
         user.setRole(defaultRole);
         // Auditoría de creación
         user.setCreatedDate(LocalDateTime.now());
-        user.setLastModifiedDate(LocalDateTime.now());
+//        user.setLastModifiedDate(LocalDateTime.now());
 
-        return userRepository.save(user);
+        var saveUser = userRepository.save(user);
+        // Después de persistir en auth DB, emite evento
+        publisher.publishUserCreated(saveUser.getId());
+        return saveUser;
     }
 
     public User loadUser(String username) {

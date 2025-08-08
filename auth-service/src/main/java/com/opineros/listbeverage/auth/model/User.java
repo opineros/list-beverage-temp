@@ -22,13 +22,13 @@ public class User {
     private Role role;
 
     @Column(name = "created_by", length = 50)
-    private String createdBy;
+    private Long createdBy;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "last_modified_by", length = 50)
-    private String lastModifiedBy;
+    private Long lastModifiedBy;
 
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
@@ -75,11 +75,11 @@ public class User {
         this.role = role;
     }
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -91,11 +91,11 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public String getLastModifiedBy() {
+    public Long getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
+    public void setLastModifiedBy(Long lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
